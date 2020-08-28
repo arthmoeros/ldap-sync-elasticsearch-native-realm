@@ -1,0 +1,59 @@
+<html>
+
+<head>
+  <script>
+    function syncApiCall() {
+      document.getElementById('submitButton').disabled = true;
+      document.getElementById('message').innerText = "";
+      document.getElementById('messageError').innerText = "";
+      let username = document.getElementById("user").value;
+      let password = document.getElementById("pass").value;
+      let reqops = {
+        method: 'PUT',
+        mode: 'cors',
+        body: JSON.stringify({username,password}),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      };
+
+      let request = new Request('https://elastictest.free.beeceptor.com/user', reqops);
+
+      return fetch(request)
+        .then(response => {
+          response.json().then(apiresp => {
+            if (apiresp.error) {
+              document.getElementById('messageError').innerText = apiresp.message;
+            } else {
+              document.getElementById('message').innerText = apiresp.message;
+            }
+            document.getElementById('submitButton').disabled = false;
+          });
+        })
+        .catch(error => {
+          document.getElementById('messageError').innerText = "API Error, check browser console";
+          console.log(error);
+          document.getElementById('submitButton').disabled = false;
+        });
+    }
+  </script>
+</head>
+
+<body>
+  <h2>Kibana LDAP User Sync</h2>
+  <div>
+    <label>Usuario</label>
+    <input type="text" id="user" />
+  </div>
+  <div>
+    <label>Password</label>
+    <input type="password" id="pass" />
+  </div>
+  <div>
+    <input id="submitButton" type="button" value="Synchronize" onclick="syncApiCall();" />
+  </div>
+  <div id="messageError" style="color: red; font-weight: bold;"></div>
+  <div id="message" style="color: green; font-weight: bold;"></div>
+</body>
+
+</html>
