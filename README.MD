@@ -1,7 +1,9 @@
 # Utility for LDAP User synchronization against an Elasticsearch native realm
 
 ⚠️⚠️ ***THIS IS NOT AFFILIATED IN ANY WAY WITH ELASTIC*** ⚠️⚠️
+
 ⚠️⚠️ ***ALSO NOT ENDORSED BY ELASTIC*** ⚠️⚠️
+
 
 ⚠️⚠️ **WARNING:** this is a work in progress ⚠️⚠️
 
