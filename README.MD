@@ -4,7 +4,6 @@
 
 ⚠️⚠️ ***ALSO NOT ENDORSED BY ELASTIC*** ⚠️⚠️
 
-
 ⚠️⚠️ **WARNING:** this is a work in progress ⚠️⚠️
 
 ## Summary
@@ -38,7 +37,9 @@ This utility seeks only to workaround this specific feature, is not seamless bec
 
 ## TODO
 
+- Add index.html to core.js output
 - Build Dockerfile and publish to hub
+- Further testing this with an actual Elasticsearch single-node and Kibana
 - Complete this README
 - Add Unit testing
 - Add CI
