@@ -1,5 +1,5 @@
 {
-  "name": "kibana-sync",
+  "name": "ldap-sync-es-native-realm",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,6 +11,7 @@
   "dependencies": {
     "fastify": "^3.1.1",
     "ldap-authentication": "arthmoeros/ldap-authentication",
+    "request": "^2.88.2",
     "request-promise-native": "^1.0.9"
   }
 }

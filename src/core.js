@@ -1,3 +1,8 @@
+const PORT = parseInt(process.env.PORT);
+
+const fs = require('fs');
+const path = require('path');
+
 const elasticsearch = require('./elasticsearch-cli');
 const ldap = require('./ldap-cli');
 const utils = require('./utils');
@@ -5,7 +10,14 @@ const utils = require('./utils');
 const fastify = require('fastify');
 const app = fastify();
 
-app.put('/_sync/user', async (req, reply) => {
+const staticHomePage = fs.readFileSync(path.join(__dirname,'index.html')).toString();
+
+app.get('/', async(req, reply) => {
+  reply.header('Content-Type','text/html');
+  return staticHomePage;
+});
+
+app.put('/user', async (req, reply) => {
   let username = req.body.username;
   let password = req.body.password;
   try {
@@ -13,20 +25,20 @@ app.put('/_sync/user', async (req, reply) => {
     if (checkLockout) {
       return checkLockout;
     }
-    let user = ldap.authUser(username, password);
+    let user = await ldap.authUser(username, password);
     if (user === 'INVALIDCRED') {
       return utils.checkTries(username);
     }
     utils.removeTries(username);
     let details = utils.mapUserDetails(user);
     let groups = utils.mapUserGroups(user);
-    elasticsearch.syncUser(username, password, groups, details);
+    await elasticsearch.syncUser(username, password, groups, details);
     return {
       error: false,
       message: 'User synchronized'
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return {
       error: true,
       message: 'Failed to sync, check server logs'
@@ -34,6 +46,6 @@ app.put('/_sync/user', async (req, reply) => {
   }
 });
 
-app.listen(3000).then(() => {
-  console.log('Server running at http://localhost:3000/');
+app.listen(PORT).then(() => {
+  console.log(`Server running at http://localhost:${PORT}/`);
 });

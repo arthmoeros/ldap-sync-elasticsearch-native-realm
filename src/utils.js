@@ -1,5 +1,5 @@
-const MAX_TRIES = parseInt(process.env.KS_MAX_TRIES) || 3
-const MINUTES_LOCKOUT = parseInt(process.env.KS_MINUTES_LOCKOUT) || 15;
+const MAX_TRIES = parseInt(process.env.LDSY_MAX_TRIES) || 3
+const MINUTES_LOCKOUT = parseInt(process.env.LDSY_MINUTES_LOCKOUT) || 15;
 const triesMap = {};
 
 function mapUserDetails(user){

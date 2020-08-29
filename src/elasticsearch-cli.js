@@ -1,6 +1,6 @@
 const Api = require('./api-caller');
-const esBaseApiUrl = process.env.KS_ES_BASE_URL || 'http://localhost:9200'
-const esApiKey = process.env.KS_ES_API_KEY || 'secret'
+const esBaseApiUrl = process.env.LDSY_ES_BASE_URL || 'http://localhost:9200'
+const esApiKey = process.env.LDSY_ES_API_KEY || 'secret'
 
 const apiCaller = new Api(esBaseApiUrl);
 const headers = {
@@ -51,7 +51,7 @@ async function _createRole(role) {
 }
 
 async function syncUser(username, password, groups, details) {
-  groups.forEach(group => {  
+  groups.forEach(async group => {  
     await _createRole(group);
   });
 

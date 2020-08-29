@@ -1,7 +1,7 @@
 const { authenticate } = require('ldap-authentication');
-const url = process.env.KS_LDAP_URL || 'ldap://example.com';
-const baseDn = process.env.KS_LDAP_BASEDN || 'dc=example,dc=com';
-const groupsDn = process.env.KS_LDAP_GROUPSDN || 'dc=example,dc=com';
+const url = process.env.LDSY_LDAP_URL || 'ldap://example.com';
+const baseDn = process.env.LDSY_LDAP_BASEDN || 'dc=example,dc=com';
+const groupsDn = process.env.LDSY_LDAP_GROUPSDN || 'dc=example,dc=com';
 
 async function authUser(username, password) {
   let options = {
@@ -14,8 +14,6 @@ async function authUser(username, password) {
     groupsSearchBase: groupsDn,
     groupClass: 'posixGroup'
   };
-
-  console.log(options);
   
   try {
     let user = await authenticate(options);

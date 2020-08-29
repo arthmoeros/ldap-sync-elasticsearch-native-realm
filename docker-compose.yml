@@ -1,0 +1,28 @@
+version: '3.6'
+
+services:
+  lsenr:
+    image: lsenr:latest
+    ports:
+      - 13001:13001
+    environment:
+      PORT: 13001
+      LDSY_ES_BASE_URL: "http://172.2.0.1:9200"
+      LDSY_ES_API_KEY: "dummykey"
+      LDSY_LDAP_URL: "ldap://example.com"
+      LDSY_LDAP_BASEDN: "dc=example,dc=com"
+      LDSY_LDAP_GROUPSDN: "dc=example,dc=com"
+      LDSY_MAX_TRIES: 3
+      LDSY_MINUTES_LOCKOUT: 15
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: 10
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
