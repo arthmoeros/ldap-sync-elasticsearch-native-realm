@@ -26,7 +26,7 @@ Simple as that, it also has some security features built-in
 - Configurable max tries for bad credentials
 - Configurable timeout for lockout on max retries
 
-## Setup & Install
+## Setup & Run
 
 This utility requires some environment variables to be set:
 
