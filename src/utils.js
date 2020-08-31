@@ -52,8 +52,13 @@ function removeTries(username){
   delete triesMap[username];
 }
 
+function loginfo(user, message){
+  console.info(`${new Date().toISOString()} - ${user} - ${message}`);
+}
+
 module.exports.mapUserDetails = mapUserDetails;
 module.exports.mapUserGroups = mapUserGroups;
 module.exports.checkTries = checkTries;
 module.exports.checkLockout = checkLockout;
 module.exports.removeTries = removeTries;
+module.exports.loginfo = loginfo;

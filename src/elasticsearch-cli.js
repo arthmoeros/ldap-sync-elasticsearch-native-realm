@@ -1,4 +1,6 @@
 const Api = require('./api-caller');
+const loginfo = require('./utils').loginfo;
+
 const esBaseApiUrl = process.env.LDSY_ES_BASE_URL || 'http://localhost:9200'
 const esApiKey = process.env.LDSY_ES_API_KEY || 'secret'
 
@@ -9,10 +11,14 @@ const headers = {
 };
 
 async function _upsertUser(username, password, groups, details) {
+  let roles = [];
+  groups.forEach((group) => {
+    roles.push(`_ldapgroup_${group}`);
+  });
   let body = {
     full_name: details.fullName,
     password,
-    roles: groups
+    roles
   };
   await apiCaller.call(
     'PUT',
@@ -51,10 +57,12 @@ async function _createRole(role) {
 }
 
 async function syncUser(username, password, groups, details) {
+  loginfo(username, 'Creating non-existing roles for ldapgroups');
   groups.forEach(async group => {  
     await _createRole(group);
   });
 
+  loginfo(username, 'Upserting user in Elasticsearch');
   await _upsertUser(username, password, groups, details);
 }
 

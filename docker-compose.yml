@@ -2,7 +2,7 @@ version: '3.6'
 
 services:
   lsenr:
-    image: lsenr:latest
+    image: arthmoeros/ldap-sync-elasticsearch-native-realm:latest
     ports:
       - 13001:13001
     environment:

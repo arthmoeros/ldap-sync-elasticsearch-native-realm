@@ -6,4 +6,4 @@ COPY . .
 
 RUN npm i
 
-CMD node "./src/core.js"
+CMD npm start

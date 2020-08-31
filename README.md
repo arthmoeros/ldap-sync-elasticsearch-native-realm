@@ -1,14 +1,14 @@
-# Utility for LDAP User synchronization against an Elasticsearch native realm
+# LDAP User synchronization against an Elasticsearch native realm
 
 ⚠️⚠️ ***THIS IS NOT AFFILIATED IN ANY WAY WITH ELASTIC*** ⚠️⚠️
 
 ⚠️⚠️ ***ALSO NOT ENDORSED BY ELASTIC*** ⚠️⚠️
 
-⚠️⚠️ **WARNING:** this is a work in progress ⚠️⚠️
+⚠️⚠️ **WARNING:** this has some things to do (mostly unit testing and so) ⚠️⚠️
 
 ## Summary
 
-Made for teams who need a somewhat workaround for LDAP authentication in Elasticsearch (read notice below).
+Made for teams who need a somewhat workaround for LDAP authentication in Elasticsearch **(read notice below)**.
 
 It works like this:
 
@@ -28,7 +28,38 @@ Simple as that, it also has some security features built-in
 
 ## Setup & Install
 
-TODO: docs for configuration via env variables and Docker install
+This utility requires some environment variables to be set:
+
+|env var | description|
+|--------|------------|
+|PORT|Defines the listening port|
+|LDSY_ES_BASE_URL|Elasticsearch base URL to work against|
+|LDSY_ES_API_KEY|Elasticsearch apiId and apiKey separated by colon, base64 encoded|
+|LDSY_LDAP_URL|LDAP base url where to authenticate and fetch info|
+|LDSY_LDAP_BASEDN|Base DN where to authenticate users|
+|LDSY_LDAP_GROUPSDN|Base DN where to fetch groups for each user|
+|LDSY_MAX_TRIES|Max tries settings for lockout|
+|LDSY_MINUTES_LOCKOUT|Minutes to enforce lockout of users who failed to authenticate on max tries|
+
+### Pure node execution example
+
+```bash
+export PORT=13001
+export LDSY_ES_BASE_URL="http://172.2.0.1:9200"
+export LDSY_ES_API_KEY="IT3R4GHSRTG3H254SDF="
+export LDSY_LDAP_URL="ldap://example.com"
+export LDSY_LDAP_BASEDN="dc=example,dc=com"
+export LDSY_LDAP_GROUPSDN="dc=example,dc=com"
+export LDSY_MAX_TRIES=3
+export LDSY_MINUTES_LOCKOUT=15
+npm start
+```
+
+### Docker execution
+
+```bash
+docker run -d --env-file env.sample -p $PORT:$PORT arthmoeros/ldap-sync-elasticsearch-native-realm:latest
+```
 
 ## Notice
 
@@ -37,9 +68,6 @@ This utility seeks only to workaround this specific feature, is not seamless bec
 
 ## TODO
 
-- Add index.html to core.js output
-- Build Dockerfile and publish to hub
-- Further testing this with an actual Elasticsearch single-node and Kibana
-- Complete this README
 - Add Unit testing
 - Add CI
+- Add parameterization to default ldapgroup role privileges
