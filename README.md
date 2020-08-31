@@ -61,6 +61,8 @@ npm start
 docker run -d --env-file env.sample -p $PORT:$PORT arthmoeros/ldap-sync-elasticsearch-native-realm:latest
 ```
 
+⚠️ **Warning!**: Although this can be run on docker, take into consideration running only one replica of this if you use Docker Swarm or any other orchestration engine, because of the lockout system uses in-memory storage to count tries and enforce lockout minutes.
+
 ## Notice
 
 Elasticsearch only provides seamless LDAP realm authentication from Gold, Platinum and Enterprise subscriptions (along with a ton of neat features).
