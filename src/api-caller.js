@@ -23,7 +23,11 @@ class Api {
     } catch (error) {
       // Only throw cause or error.error, because original error contains request body
       // and we don't want to log passwords, don't we?
-      throw error.cause || error.error;
+      if (error.statusCode === 404){
+        return {statusCode:404}
+      } else {
+        throw error.cause || error.error;
+      }
     }
   }
 }

@@ -34,18 +34,20 @@ This utility requires some environment variables to be set:
 |--------|------------|
 |PORT|Defines the listening port|
 |LDSY_ES_BASE_URL|Elasticsearch base URL to work against|
-|LDSY_ES_API_KEY|Elasticsearch apiId and apiKey separated by colon, base64 encoded|
+|LDSY_ES_API_KEY|Elasticsearch apiId and apiKey concat by colon, base64 encoded|
 |LDSY_LDAP_URL|LDAP base url where to authenticate and fetch info|
 |LDSY_LDAP_BASEDN|Base DN where to authenticate users|
 |LDSY_LDAP_GROUPSDN|Base DN where to fetch groups for each user|
 |LDSY_MAX_TRIES|Max tries settings for lockout|
 |LDSY_MINUTES_LOCKOUT|Minutes to enforce lockout of users who failed to authenticate on max tries|
 
+⚠️ **WARNING:** API Key must have `manage_security` cluster privilege
+
 ### Pure node execution example
 
 ```bash
 export PORT=13001
-export LDSY_ES_BASE_URL="http://172.2.0.1:9200"
+export LDSY_ES_BASE_URL="http://localhost:9200"
 export LDSY_ES_API_KEY="IT3R4GHSRTG3H254SDF="
 export LDSY_LDAP_URL="ldap://example.com"
 export LDSY_LDAP_BASEDN="dc=example,dc=com"
@@ -58,10 +60,15 @@ npm start
 ### Docker execution
 
 ```bash
-docker run -d --env-file env.sample -p $PORT:$PORT arthmoeros/ldap-sync-elasticsearch-native-realm:latest
+# Image must be built first
+docker run -d --env-file env.sample -p $PORT:$PORT ldap-sync-elasticsearch-native-realm
 ```
 
 ⚠️ **Warning!**: Although this can be run on docker, take into consideration running only one replica of this if you use Docker Swarm or any other orchestration engine, because of the lockout system uses in-memory storage to count tries and enforce lockout minutes.
+
+## Using this with Kibana
+
+Although this utility already takes into consideration Kibana usage (check [base-role.json](src/base-role.json)), take a look at [KIBANA_ROLES_SAMPLES.md](KIBANA_ROLES_SAMPLES.md) for more details.
 
 ## Notice
 

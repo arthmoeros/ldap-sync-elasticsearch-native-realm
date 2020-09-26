@@ -1,5 +1,6 @@
 const Api = require('./api-caller');
 const loginfo = require('./utils').loginfo;
+const baseRole = require('./base-role.json');
 
 const esBaseApiUrl = process.env.LDSY_ES_BASE_URL || 'http://localhost:9200'
 const esApiKey = process.env.LDSY_ES_API_KEY || 'secret'
@@ -41,16 +42,10 @@ async function _isRoleCreated(role){
 async function _createRole(role) {
   let roleExists = await _isRoleCreated(role);
   if (!roleExists) {
-    let body = {
-      indices: {
-        names: ['*'],
-        privileges: ['all']
-      }
-    };
     await apiCaller.call(
       'PUT',
       `/_security/role/_ldapgroup_${role}`,
-      body,
+      baseRole,
       headers
     );
   }

@@ -1,0 +1,28 @@
+{
+  "cluster": [],
+  "indices": [
+    {
+      "names": [
+        "*"
+      ],
+      "privileges": [
+        "read"
+      ],
+      "allow_restricted_indices": false
+    }
+  ],
+  "applications": [
+    {
+      "application": "kibana-.kibana",
+      "privileges": [
+        "feature_discover.read",
+        "feature_visualize.read",
+        "feature_dashboard.read",
+        "feature_indexPatterns.read"
+      ],
+      "resources": [
+        "*"
+      ]
+    }
+  ]
+}
