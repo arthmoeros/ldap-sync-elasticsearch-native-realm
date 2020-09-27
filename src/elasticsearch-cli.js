@@ -16,6 +16,7 @@ async function _upsertUser(username, password, groups, details) {
   groups.forEach((group) => {
     roles.push(`_ldapgroup_${group}`);
   });
+  roles.push('_default_kibana')
   let body = {
     full_name: details.fullName,
     password,
