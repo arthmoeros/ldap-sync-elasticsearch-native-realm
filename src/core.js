@@ -56,6 +56,6 @@ app.put('/user', async (req, reply) => {
   }
 });
 
-app.listen(PORT).then(() => {
-  console.log(`Server running at http://localhost:${PORT}/`);
+app.listen(PORT, '0.0.0.0').then(() => {
+  console.log(`Server running at http://0.0.0.0:${PORT}/`);
 });

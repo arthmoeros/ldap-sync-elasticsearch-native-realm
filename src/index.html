@@ -17,7 +17,7 @@
         }
       };
 
-      let request = new Request('user', reqops);
+      let request = new Request(`${window.location.href}/user`, reqops);
 
       return fetch(request)
         .then(response => {
