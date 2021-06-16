@@ -12,11 +12,27 @@ const headers = {
 };
 
 async function _upsertUser(username, password, groups, details) {
+  let currentUserInfo = await apiCaller.call(
+    'GET',
+    `/_security/user/${username}`,
+    null,
+    headers
+  )
+  let currentRoles = currentUserInfo[username] !== undefined ? currentUserInfo[username].roles : [];
+
   let roles = [];
   groups.forEach((group) => {
     roles.push(`_ldapgroup_${group}`);
   });
-  roles.push('_default_kibana')
+  roles.push('_default_kibana');
+
+  currentRoles.forEach((role) => {
+    if(roles.indexOf(role) === -1){
+      loginfo(username, `Found previously set role ${role}, keeping it`);
+      roles.push(role);
+    }
+  });
+
   let body = {
     full_name: details.fullName,
     password,
