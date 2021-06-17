@@ -12,6 +12,7 @@ const headers = {
 };
 
 async function _upsertUser(username, password, groups, details) {
+  loginfo(username, `Querying existing user`);
   let currentUserInfo = await apiCaller.call(
     'GET',
     `/_security/user/${username}`,
@@ -38,6 +39,7 @@ async function _upsertUser(username, password, groups, details) {
     password,
     roles
   };
+  loginfo(username, `Upserting user in Elasticsearch`);
   await apiCaller.call(
     'PUT',
     `/_security/user/${username}`,
@@ -74,7 +76,7 @@ async function syncUser(username, password, groups, details) {
     await _createRole(group);
   });
 
-  loginfo(username, 'Upserting user in Elasticsearch');
+  loginfo(username, 'Calling upsert user');
   await _upsertUser(username, password, groups, details);
 }
 
